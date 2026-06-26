@@ -16,6 +16,7 @@ export default function Team() {
     {
       name: "Daniyal Siddique",
       role: "Team Leader • Electronics Lead • System Architect & CAD Design Lead",
+      linkedin: "https://www.linkedin.com/in/daniyal-siddique-b40661417/",
       avatarInitials: "DS",
       disciplineIcon: Shield,
       contributions: [
@@ -106,10 +107,18 @@ export default function Team() {
           {team.map((member, idx) => {
             const IconComp = member.disciplineIcon;
             
+            const CardWrapper = member.linkedin ? 'a' : 'div';
+            const wrapperProps = member.linkedin ? {
+              href: member.linkedin,
+              target: "_blank",
+              rel: "noopener noreferrer"
+            } : {};
+
             return (
-              <div 
+              <CardWrapper 
                 key={idx}
-                className={`p-6 rounded-xl border-4 transition-all duration-200 group flex flex-col justify-between relative overflow-hidden cursor-pointer ${
+                {...(wrapperProps as any)}
+                className={`p-6 rounded-xl border-4 transition-all duration-200 group flex flex-col justify-between relative overflow-hidden cursor-pointer block ${
                   member.name === "Daniyal Siddique"
                     ? "border-blue-500 dark:border-blue-500 bg-white dark:bg-slate-950 shadow-[6px_6px_0px_#3b82f6] hover:bg-slate-50 dark:hover:bg-slate-900 hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[8px_8px_0px_#3b82f6] active:shadow-none active:translate-y-[6px] active:translate-x-[6px] z-10"
                     : "border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-950 shadow-[6px_6px_0px_#cbd5e1] dark:shadow-[6px_6px_0px_#1e293b] hover:bg-slate-50 dark:hover:bg-slate-900 hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[8px_8px_0px_#cbd5e1] dark:hover:shadow-[8px_8px_0px_#1e293b] active:shadow-none active:translate-y-[6px] active:translate-x-[6px]"
@@ -126,6 +135,7 @@ export default function Team() {
                       {member.avatarInitials}
                     </div>
                     
+                    <div className="flex-1" />
                     <div className={`w-10 h-10 border-2 rounded-lg flex items-center justify-center transition-all duration-300 shadow-inner ${
                       member.name === "Daniyal Siddique"
                         ? "bg-blue-600 dark:bg-blue-600 border-blue-700 dark:border-blue-700 text-white"
@@ -163,7 +173,7 @@ export default function Team() {
                     </ul>
                   </div>
                 </div>
-              </div>
+              </CardWrapper>
             );
           })}
         </div>
