@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { Sparkles, Download, RefreshCw, Cpu, ImageIcon, AlertCircle, X, Send, FileCode2 } from "lucide-react";
+import { Sparkles, Download, RefreshCw, Cpu, ImageIcon, AlertCircle, X, Send, FileCode2, Maximize } from "lucide-react";
 import { usePlotter } from "@/context/PlotterContext";
 
 const EXAMPLE_PROMPTS = [
@@ -14,7 +14,7 @@ const EXAMPLE_PROMPTS = [
 ];
 
 export default function ImageGenerator() {
-  const { setPlotterImage } = usePlotter();
+  const { setPlotterImage, cutW, setCutW, cutH, setCutH } = usePlotter();
   const [prompt, setPrompt] = useState("");
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
@@ -167,11 +167,8 @@ export default function ImageGenerator() {
       className="relative py-24 md:py-32 px-8 md:px-16 lg:px-24 overflow-hidden"
     >
       {/* Background grid */}
-      <div className="absolute inset-0 tech-grid opacity-60 pointer-events-none" />
-      <div className="absolute inset-0 tech-grid-fine pointer-events-none" />
 
       {/* Subtle radial vignette */}
-      <div className="absolute inset-0 tech-radial-vignette pointer-events-none" />
 
       <div className="relative max-w-screen-xl mx-auto">
 
@@ -238,6 +235,32 @@ export default function ImageGenerator() {
                 <p className="mt-4 text-center font-mono text-[9px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                   Press Enter ↵ to generate · Shift+Enter for new line
                 </p>
+              </div>
+            </div>
+
+            {/* Dimension settings */}
+            <div className="bg-slate-100 dark:bg-slate-900 border-4 border-slate-300 dark:border-slate-800 rounded-xl p-6 shadow-[8px_8px_0px_rgba(15,23,42,0.1)] dark:shadow-[8px_8px_0px_rgba(0,0,0,0.5)] relative overflow-hidden">
+              <div className="absolute inset-0 opacity-15 dark:opacity-5 bg-[radial-gradient(#94a3b8_1.5px,transparent_1.5px)] dark:bg-[radial-gradient(#e2e8f0_1.5px,transparent_1.5px)] [background-size:16px_16px] pointer-events-none" />
+              <div className="flex items-center gap-2 mb-4 relative z-10">
+                <Maximize className="w-4 h-4 text-slate-800 dark:text-slate-200" />
+                <h2 className="text-[11px] font-black tracking-widest uppercase text-slate-800 dark:text-slate-200">Cut Dimensions</h2>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4 relative z-10">
+                <div>
+                  <label className="block text-[9px] font-bold text-slate-500 dark:text-slate-400 mb-2 uppercase tracking-widest">Cut Width (mm)</label>
+                  <input type="number" value={cutW} onChange={e => {
+                    const w = Number(e.target.value);
+                    if (w > 0) setCutW(w);
+                  }} className="w-full bg-white dark:bg-slate-950 border-2 border-slate-300 dark:border-slate-800 rounded-md py-2 px-3 text-[12px] font-bold text-slate-900 dark:text-slate-100 focus:outline-none focus:border-blue-500 dark:focus:border-blue-500 shadow-inner transition-colors" />
+                </div>
+                <div>
+                  <label className="block text-[9px] font-bold text-slate-500 dark:text-slate-400 mb-2 uppercase tracking-widest">Cut Height (mm)</label>
+                  <input type="number" value={cutH} onChange={e => {
+                    const h = Number(e.target.value);
+                    if (h > 0) setCutH(h);
+                  }} className="w-full bg-white dark:bg-slate-950 border-2 border-slate-300 dark:border-slate-800 rounded-md py-2 px-3 text-[12px] font-bold text-slate-900 dark:text-slate-100 focus:outline-none focus:border-blue-500 dark:focus:border-blue-500 shadow-inner transition-colors" />
+                </div>
               </div>
             </div>
 

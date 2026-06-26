@@ -18,14 +18,7 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white overflow-hidden font-sans flex flex-col justify-between selection:bg-indigo-600 selection:text-white">
-
-      {/* --- DOTTED BACKGROUND --- */}
-      {/* Increased opacity so the dots are more visible */}
-      <div className="absolute inset-0 z-0 pointer-events-none opacity-60 dark:opacity-40 bg-[radial-gradient(#94a3b8_1.5px,transparent_1.5px)] dark:bg-[radial-gradient(#64748b_1.5px,transparent_1.5px)] [background-size:24px_24px]" />
-
-      {/* Soft vignette */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(248,250,252,0.95)_100%)] dark:bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(2,6,23,0.95)_100%)] pointer-events-none z-0" />
+    <section className="relative min-h-screen bg-transparent text-slate-900 dark:text-white overflow-hidden font-sans flex flex-col justify-between selection:bg-indigo-600 selection:text-white">
 
       {/* --- RETRO BOUNDARIES WITH BUTTON EFFECT --- */}
       <div className="absolute inset-4 md:inset-8 z-20 pointer-events-none">

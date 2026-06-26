@@ -225,7 +225,7 @@ function ArduinoVisual({ isConnected }: { isConnected: boolean }) {
               CONNECTED
             </span>
           ) : (
-            <span className="flex items-center gap-1.5 px-2 py-0.5 rounded border border-border-card bg-bg-dark text-[8px] text-foreground/30 font-mono tracking-widest">
+            <span className="flex items-center gap-1.5 px-2 py-0.5 rounded border border-border-card bg-transparent text-[8px] text-foreground/30 font-mono tracking-widest">
               <span className="w-1.5 h-1.5 rounded-full bg-foreground/20" />
               NO DEVICE
             </span>
@@ -976,8 +976,7 @@ export default function Architecture({ arduino }: { arduino: UseArduinoReturn })
   ];
 
   return (
-    <section id="architecture" className="relative py-24 bg-bg-dark border-b border-border-card">
-      <div className="absolute inset-0 tech-grid-fine opacity-20 pointer-events-none" />
+    <section id="architecture" className="relative py-24 bg-transparent border-b border-border-card">
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
 
@@ -1078,7 +1077,7 @@ export default function Architecture({ arduino }: { arduino: UseArduinoReturn })
                 {nodes[activeNode].specs.map((spec, sidx) => (
                   <span
                     key={sidx}
-                    className="px-2.5 py-1 rounded bg-bg-dark border border-border-card font-mono text-[9px] text-accent-yellow-bright"
+                    className="px-2.5 py-1 rounded bg-transparent border border-border-card font-mono text-[9px] text-accent-yellow-bright"
                   >
                     {spec}
                   </span>

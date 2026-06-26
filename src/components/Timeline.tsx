@@ -55,8 +55,7 @@ export default function Timeline() {
   ];
 
   return (
-    <section id="timeline" className="relative py-24 bg-bg-dark border-b border-border-card">
-      <div className="absolute inset-0 tech-grid-fine opacity-20 pointer-events-none" />
+    <section id="timeline" className="relative py-24 bg-transparent border-b border-border-card">
 
       <div className="max-w-5xl mx-auto px-6 relative z-10">
 

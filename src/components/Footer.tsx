@@ -37,8 +37,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="relative bg-bg-dark border-t border-border-card pt-16 pb-8">
-      <div className="absolute inset-0 tech-grid-fine opacity-10 pointer-events-none" />
+    <footer className="relative bg-transparent border-t border-border-card pt-16 pb-8">
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         

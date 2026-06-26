@@ -39,8 +39,7 @@ export default function FutureScope() {
   ];
 
   return (
-    <section id="future-scope" className="relative py-24 bg-bg-dark border-b border-border-card">
-      <div className="absolute inset-0 tech-grid-fine opacity-20 pointer-events-none" />
+    <section id="future-scope" className="relative py-24 bg-transparent border-b border-border-card">
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         

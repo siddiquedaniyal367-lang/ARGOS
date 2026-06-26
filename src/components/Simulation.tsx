@@ -636,7 +636,8 @@ export default function Simulation({ theme = "dark" }: SimulationProps) {
       camera.updateProjectionMatrix();
       renderer.setSize(width, height);
     };
-    window.addEventListener("resize", handleResize);
+    const resizeObserver = new ResizeObserver(() => handleResize());
+    if (containerRef.current) resizeObserver.observe(containerRef.current);
 
     // Animation Loop
     let animationFrameId: number;
@@ -752,7 +753,7 @@ export default function Simulation({ theme = "dark" }: SimulationProps) {
     // Cleanup
     return () => {
       cancelAnimationFrame(animationFrameId);
-      window.removeEventListener("resize", handleResize);
+      resizeObserver.disconnect();
       if (containerRef.current && renderer.domElement) {
         containerRef.current.removeChild(renderer.domElement);
       }
@@ -843,8 +844,7 @@ export default function Simulation({ theme = "dark" }: SimulationProps) {
   }, [theme]);
 
   return (
-    <section id="simulation" className="relative py-24 bg-bg-dark border-b border-border-card transition-colors duration-300">
-      <div className="absolute inset-0 tech-grid opacity-10 pointer-events-none" />
+    <section id="simulation" className="relative py-24 bg-transparent border-b border-border-card transition-colors duration-300">
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         
@@ -979,15 +979,22 @@ export default function Simulation({ theme = "dark" }: SimulationProps) {
             </div>
           </div>
         )}
+        {/* Fullscreen Backdrop */}
+        {isFullscreen && (
+          <div 
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[9998] transition-opacity duration-300 cursor-pointer"
+            onClick={() => setIsFullscreen(false)}
+          />
+        )}
 
         {/* Core Layout Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           
           {/* 3D Canvas Box */}
-          <div className={`transition-all duration-300 relative rounded-2xl border border-border-card bg-black/60 flex flex-col shadow-2xl overflow-hidden [transform:translateZ(0)] ${
+          <div className={`transition-all duration-300 relative rounded-2xl border border-border-card bg-black/60 flex flex-col shadow-2xl overflow-hidden ${
             isFullscreen 
-              ? "fixed inset-0 z-[9999] w-screen h-screen rounded-none border-none lg:col-span-12" 
-              : "lg:col-span-8 h-[500px] lg:h-[600px]"
+              ? "fixed top-[5vh] left-[5vw] w-[90vw] h-[90vh] z-[9999] border-2 shadow-[0_0_50px_rgba(0,0,0,0.8)]" 
+              : "lg:col-span-8 h-[500px] lg:h-[600px] [transform:translateZ(0)]"
           }`}>
             
             {/* Viewport Labels / Overlays */}
@@ -1049,33 +1056,34 @@ export default function Simulation({ theme = "dark" }: SimulationProps) {
             {showLabels && (
               <>
                 {/* Arduino Label */}
-                <div ref={labelArduinoRef} className="absolute z-20 pointer-events-none hidden md:block" style={{ transform: "translate(-50%, -50%)" }}>
-                  <div className="flex items-center gap-2">
+                <div ref={labelArduinoRef} className="absolute z-20 pointer-events-none hidden md:block">
+                  <div className="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-[100%] flex items-center gap-2">
                     <div className="bg-bg-card/90 border border-border-card rounded px-2.5 py-1 text-left backdrop-blur-md transition-colors duration-300">
                       <div className="font-mono text-[9px] text-accent-yellow font-semibold">Arduino Controller</div>
                       <div className="text-[8px] text-foreground/45">Atmega328P Core</div>
                     </div>
                     <div className="h-[1px] w-8 bg-accent-yellow/40" />
-                    <span className="w-2 h-2 bg-accent-yellow rounded-full animate-pulse shadow-[0_0_10px_var(--accent-yellow)]" />
                   </div>
+                  <span className="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/2 w-2 h-2 bg-accent-yellow rounded-full animate-pulse shadow-[0_0_10px_var(--accent-yellow)]" />
                 </div>
 
                 {/* Laser Module */}
-                <div ref={labelLaserRef} className="absolute z-20 pointer-events-none hidden md:block" style={{ transform: "translate(-50%, -100%)" }}>
-                  <div className="flex flex-col items-center">
+                <div ref={labelLaserRef} className="absolute z-20 pointer-events-none hidden md:block">
+                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 -translate-y-[100%] flex flex-col items-center">
                     <div className="bg-bg-card/90 border border-border-card rounded px-2.5 py-1 text-center backdrop-blur-md transition-colors duration-300 mb-1">
                       <div className="font-mono text-[9px] text-accent font-semibold">Laser Module</div>
                       <div className="text-[8px] text-foreground/45">450nm 3.5W Diode</div>
                     </div>
                     <div className="h-4 w-[1px] bg-accent/40" />
-                    <span className="w-2 h-2 bg-accent rounded-full animate-pulse shadow-[0_0_10px_var(--accent)]" />
                   </div>
+                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-accent rounded-full animate-pulse shadow-[0_0_10px_var(--accent)]" />
                 </div>
 
                 {/* Stepper Motor X */}
-                <div ref={labelMotorRef} className="absolute z-20 pointer-events-none hidden md:block" style={{ transform: "translate(-50%, -50%)" }}>
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 bg-accent-yellow rounded-full animate-pulse shadow-[0_0_10px_var(--accent-yellow)]" />
+                <div ref={labelMotorRef} className="absolute z-20 pointer-events-none hidden md:block">
+                  <span className="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/2 w-2 h-2 bg-accent-yellow rounded-full animate-pulse shadow-[0_0_10px_var(--accent-yellow)]" />
+                  <div className="absolute top-1/2 left-0 -translate-y-1/2 flex items-center gap-2">
+                    <div className="w-1" /> {/* Spacer for dot overlap */}
                     <div className="h-[1px] w-8 bg-accent-yellow/40" />
                     <div className="bg-bg-card/90 border border-border-card rounded px-2.5 py-1 text-right backdrop-blur-md transition-colors duration-300">
                       <div className="font-mono text-[9px] text-accent-yellow font-semibold">Stepper Motors</div>

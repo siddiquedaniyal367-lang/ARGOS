@@ -47,7 +47,7 @@ export function useArduino(): UseArduinoReturn {
     if (!port.readable) return;
 
     const textDecoder = new TextDecoderStream();
-    const readableStreamClosed = port.readable.pipeTo(textDecoder.writable);
+    const readableStreamClosed = port.readable.pipeTo(textDecoder.writable as any);
     const reader = textDecoder.readable.getReader();
     readerRef.current = reader;
     readingRef.current = true;

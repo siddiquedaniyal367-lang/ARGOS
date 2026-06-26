@@ -56,7 +56,7 @@ export default function Home() {
 
     targets.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, []);
+  });
 
   const toggleTheme = () => {
     const nextTheme = theme === "dark" ? "light" : "dark";
@@ -71,7 +71,19 @@ export default function Home() {
 
   return (
     <PlotterProvider>
-    <div className="flex flex-col min-h-screen bg-bg-dark tech-grid animate-grid-flow text-foreground selection:bg-accent/30 selection:text-accent-bright">
+    <div className="flex flex-col min-h-screen bg-transparent text-foreground selection:bg-accent/30 selection:text-accent-bright relative">
+      {/* --- GLOBAL DOTTED BACKGROUND --- */}
+      <div className="fixed inset-0 z-[-2] pointer-events-none opacity-60 dark:opacity-40 bg-[radial-gradient(#94a3b8_1.5px,transparent_1.5px)] dark:bg-[radial-gradient(#64748b_1.5px,transparent_1.5px)] [background-size:24px_24px]" />
+
+      {/* --- GLOBAL GLASSMORPHISM GRID BACKGROUND --- */}
+      <div className="fixed inset-0 z-[-1] pointer-events-none backdrop-blur-sm bg-slate-50/40 dark:bg-slate-950/40 
+        bg-[linear-gradient(to_right,#cbd5e1_1px,transparent_1px),linear-gradient(to_bottom,#cbd5e1_1px,transparent_1px)]
+        dark:bg-[linear-gradient(to_right,#334155_1px,transparent_1px),linear-gradient(to_bottom,#334155_1px,transparent_1px)]
+        [background-size:72px_72px]" />
+
+      {/* Soft vignette */}
+      <div className="fixed inset-0 z-[-1] bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(248,250,252,0.95)_100%)] dark:bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(2,6,23,0.95)_100%)] pointer-events-none" />
+
       {/* Header / Navbar — ultra minimal */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-bg-dark/70 backdrop-blur-xl">
         <div className="max-w-screen-xl mx-auto px-8 md:px-16 lg:px-24 h-14 flex items-center justify-between">
@@ -106,18 +118,6 @@ export default function Home() {
 
           {/* Right actions */}
           <div className="flex items-center gap-5">
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                alert("Downloading ARGOS IDE...");
-              }}
-              className="hidden md:flex items-center gap-1.5 px-3 py-1.5 border-2 border-slate-800 dark:border-slate-200 bg-slate-800 dark:bg-slate-200 text-white dark:text-slate-900 text-[9px] font-black tracking-widest uppercase hover:bg-white dark:hover:bg-slate-900 hover:text-slate-800 dark:hover:text-slate-200 transition-all shadow-[2px_2px_0px_#1e293b] dark:shadow-[2px_2px_0px_#e2e8f0] active:shadow-none active:translate-y-[2px] active:translate-x-[2px] cursor-pointer"
-            >
-              <Download className="w-3 h-3" />
-              Download IDE
-            </a>
-
             <button
               onClick={toggleTheme}
               className="p-1 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors duration-300 cursor-pointer"
